@@ -1,0 +1,24 @@
+{
+  "manifest_version": 3,
+  "name": "MDReview",
+  "version": "0.2.0",
+  "description": "Preview-first Markdown reviews for GitHub pull requests (POC).",
+  "host_permissions": [
+    "https://github.com/*"
+  ],
+  "content_scripts": [
+    {
+      "matches": [
+        "https://github.com/*/*/pull/*/files*"
+      ],
+      "js": [
+        "vendor/markdown-it.min.js",
+        "content.js"
+      ],
+      "css": [
+        "ui.css"
+      ],
+      "run_at": "document_idle"
+    }
+  ]
+}
