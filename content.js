@@ -389,23 +389,36 @@
     document.body.appendChild(btn);
   }
 
+  function removeOpenButton() {
+    document.getElementById("mdreview-open")?.remove();
+  }
+
+  function syncUiForRoute() {
+    if (isPRFilesChanged()) {
+      injectOpenButton();
+      ensureFab();
+      return;
+    }
+
+    removeOpenButton();
+    document.getElementById("mdreview-drawer")?.remove();
+  }
+
   async function boot() {
-    if (!isPRFilesChanged()) return;
-    injectOpenButton();
-    ensureFab();
+    syncUiForRoute();
 
     // SPA navigation watcher
     let last = location.href;
     const obs = new MutationObserver(() => {
       if (location.href !== last) {
         last = location.href;
-        if (isPRFilesChanged()) injectOpenButton();
+        syncUiForRoute();
       }
     });
     obs.observe(document.documentElement, { childList: true, subtree: true });
 
     // Restore block scroll if hash indicates.
-    if ((location.hash || "").startsWith("#mdreview-block-")) {
+    if (isPRFilesChanged() && (location.hash || "").startsWith("#mdreview-block-")) {
       await sleep(250);
       buildPreview();
     }

@@ -9,7 +9,7 @@
   "content_scripts": [
     {
       "matches": [
-        "https://github.com/*/*/pull/*/files*"
+        "https://github.com/*/*/pull/*"
       ],
       "js": [
         "vendor/markdown-it.min.js",
